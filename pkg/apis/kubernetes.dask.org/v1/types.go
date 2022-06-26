@@ -61,12 +61,16 @@ type JobClusterSpec struct {
 	Spec DaskClusterSpec `json:"spec"`
 }
 
+type DaskJobSpec struct {
+	Job     JobSpec        `json:"job"`
+	Cluster JobClusterSpec `json:"cluster"`
+}
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 type DaskJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata"`
-	Job               JobSpec        `json:"job"`
-	Cluster           JobClusterSpec `json:"cluster"`
+	Spec              DaskJobSpec `json:"spec"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
