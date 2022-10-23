@@ -86,6 +86,18 @@ func (c *FakeDaskJobs) Update(ctx context.Context, daskJob *kubernetesdaskorgv1.
 	return obj.(*kubernetesdaskorgv1.DaskJob), err
 }
 
+// UpdateStatus was generated because the type contains a Status member.
+// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
+func (c *FakeDaskJobs) UpdateStatus(ctx context.Context, daskJob *kubernetesdaskorgv1.DaskJob, opts v1.UpdateOptions) (*kubernetesdaskorgv1.DaskJob, error) {
+	obj, err := c.Fake.
+		Invokes(testing.NewUpdateSubresourceAction(daskjobsResource, "status", c.ns, daskJob), &kubernetesdaskorgv1.DaskJob{})
+
+	if obj == nil {
+		return nil, err
+	}
+	return obj.(*kubernetesdaskorgv1.DaskJob), err
+}
+
 // Delete takes name of the daskJob and deletes it. Returns an error if one occurs.
 func (c *FakeDaskJobs) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.

@@ -24,6 +24,7 @@ type DaskJobsGetter interface {
 type DaskJobInterface interface {
 	Create(ctx context.Context, daskJob *v1.DaskJob, opts metav1.CreateOptions) (*v1.DaskJob, error)
 	Update(ctx context.Context, daskJob *v1.DaskJob, opts metav1.UpdateOptions) (*v1.DaskJob, error)
+	UpdateStatus(ctx context.Context, daskJob *v1.DaskJob, opts metav1.UpdateOptions) (*v1.DaskJob, error)
 	Delete(ctx context.Context, name string, opts metav1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts metav1.DeleteOptions, listOpts metav1.ListOptions) error
 	Get(ctx context.Context, name string, opts metav1.GetOptions) (*v1.DaskJob, error)
@@ -112,6 +113,22 @@ func (c *daskJobs) Update(ctx context.Context, daskJob *v1.DaskJob, opts metav1.
 		Namespace(c.ns).
 		Resource("daskjobs").
 		Name(daskJob.Name).
+		VersionedParams(&opts, scheme.ParameterCodec).
+		Body(daskJob).
+		Do(ctx).
+		Into(result)
+	return
+}
+
+// UpdateStatus was generated because the type contains a Status member.
+// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
+func (c *daskJobs) UpdateStatus(ctx context.Context, daskJob *v1.DaskJob, opts metav1.UpdateOptions) (result *v1.DaskJob, err error) {
+	result = &v1.DaskJob{}
+	err = c.client.Put().
+		Namespace(c.ns).
+		Resource("daskjobs").
+		Name(daskJob.Name).
+		SubResource("status").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(daskJob).
 		Do(ctx).

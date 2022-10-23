@@ -70,13 +70,38 @@ type DaskJobSpec struct {
 	Cluster JobClusterSpec `json:"cluster"`
 }
 
+type JobStatus string
+
+const (
+	DaskJobCreated        JobStatus = "JobCreated"
+	DaskJobClusterCreated JobStatus = "ClusterCreated"
+	DaskJobRunning        JobStatus = "Running"
+	DaskJobSuccessful     JobStatus = "Successful"
+	DaskJobFailed         JobStatus = "Failed"
+)
+
+// DaskJobStatus describes the current status of a Dask Job
+type DaskJobStatus struct {
+	// The name of the cluster the job is executed on
+	ClusterName string `json:"clusterName,omitempty"`
+	// The time the job runner pod changed to either Successful or Failing
+	EndTime metav1.Time `json:"endTime,omitempty"`
+	// The name of the job-runner pod
+	JobRunnerPodName string `json:"jobRunnerPodName,omitempty"`
+	// JobStatus describes the current status of the job
+	JobStatus JobStatus `json:"jobStatus"`
+	// Start time records the time the job-runner pod changed into a `running` state
+	StartTime metav1.Time `json:"startTime"`
+}
+
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:defaulter-gen=true
 type DaskJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata"`
-	Spec              DaskJobSpec `json:"spec"`
+	Spec              DaskJobSpec   `json:"spec"`
+	Status            DaskJobStatus `json:"status,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
