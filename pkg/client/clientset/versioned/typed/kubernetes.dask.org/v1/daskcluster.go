@@ -24,6 +24,7 @@ type DaskClustersGetter interface {
 type DaskClusterInterface interface {
 	Create(ctx context.Context, daskCluster *v1.DaskCluster, opts metav1.CreateOptions) (*v1.DaskCluster, error)
 	Update(ctx context.Context, daskCluster *v1.DaskCluster, opts metav1.UpdateOptions) (*v1.DaskCluster, error)
+	UpdateStatus(ctx context.Context, daskCluster *v1.DaskCluster, opts metav1.UpdateOptions) (*v1.DaskCluster, error)
 	Delete(ctx context.Context, name string, opts metav1.DeleteOptions) error
 	DeleteCollection(ctx context.Context, opts metav1.DeleteOptions, listOpts metav1.ListOptions) error
 	Get(ctx context.Context, name string, opts metav1.GetOptions) (*v1.DaskCluster, error)
@@ -112,6 +113,22 @@ func (c *daskClusters) Update(ctx context.Context, daskCluster *v1.DaskCluster, 
 		Namespace(c.ns).
 		Resource("daskclusters").
 		Name(daskCluster.Name).
+		VersionedParams(&opts, scheme.ParameterCodec).
+		Body(daskCluster).
+		Do(ctx).
+		Into(result)
+	return
+}
+
+// UpdateStatus was generated because the type contains a Status member.
+// Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
+func (c *daskClusters) UpdateStatus(ctx context.Context, daskCluster *v1.DaskCluster, opts metav1.UpdateOptions) (result *v1.DaskCluster, err error) {
+	result = &v1.DaskCluster{}
+	err = c.client.Put().
+		Namespace(c.ns).
+		Resource("daskclusters").
+		Name(daskCluster.Name).
+		SubResource("status").
 		VersionedParams(&opts, scheme.ParameterCodec).
 		Body(daskCluster).
 		Do(ctx).

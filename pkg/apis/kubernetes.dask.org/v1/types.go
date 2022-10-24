@@ -20,13 +20,26 @@ type DaskClusterSpec struct {
 	Scheduler SchedulerSpec `json:"scheduler"`
 }
 
+type DaskClusterPhase string
+
+const (
+	DaskClusterCreated DaskClusterPhase = "Created"
+	DaskClusterRunning DaskClusterPhase = "Running"
+)
+
+type DaskClusterStatus struct {
+	// The phase the cluster is in right now
+	Phase DaskClusterPhase `json:"phase,omitempty"`
+}
+
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 // +k8s:defaulter-gen=true
 type DaskCluster struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata"`
-	Spec              DaskClusterSpec `json:"spec"`
+	Spec              DaskClusterSpec   `json:"spec"`
+	Status            DaskClusterStatus `json:"status,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
