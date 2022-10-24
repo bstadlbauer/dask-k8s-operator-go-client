@@ -12,6 +12,10 @@ type FakeKubernetesV1 struct {
 	*testing.Fake
 }
 
+func (c *FakeKubernetesV1) DaskAutoscalers(namespace string) v1.DaskAutoscalerInterface {
+	return &FakeDaskAutoscalers{c, namespace}
+}
+
 func (c *FakeKubernetesV1) DaskClusters(namespace string) v1.DaskClusterInterface {
 	return &FakeDaskClusters{c, namespace}
 }

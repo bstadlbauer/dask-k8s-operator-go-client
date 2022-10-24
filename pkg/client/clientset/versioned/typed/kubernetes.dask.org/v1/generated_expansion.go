@@ -2,6 +2,8 @@
 
 package v1
 
+type DaskAutoscalerExpansion interface{}
+
 type DaskClusterExpansion interface{}
 
 type DaskJobExpansion interface{}

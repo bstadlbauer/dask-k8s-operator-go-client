@@ -12,6 +12,7 @@ import (
 
 type KubernetesV1Interface interface {
 	RESTClient() rest.Interface
+	DaskAutoscalersGetter
 	DaskClustersGetter
 	DaskJobsGetter
 	DaskWorkerGroupsGetter
@@ -20,6 +21,10 @@ type KubernetesV1Interface interface {
 // KubernetesV1Client is used to interact with features provided by the kubernetes.dask.org group.
 type KubernetesV1Client struct {
 	restClient rest.Interface
+}
+
+func (c *KubernetesV1Client) DaskAutoscalers(namespace string) DaskAutoscalerInterface {
+	return newDaskAutoscalers(c, namespace)
 }
 
 func (c *KubernetesV1Client) DaskClusters(namespace string) DaskClusterInterface {

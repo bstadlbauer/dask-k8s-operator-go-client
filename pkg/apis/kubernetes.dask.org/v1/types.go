@@ -123,3 +123,28 @@ type DaskJobList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []DaskJob `json:"items,omitempty"`
 }
+
+type DaskAutoscalerSpec struct {
+	// Name of the cluster to associate this autoscaler with
+	Cluster string `json:"cluster"`
+	// Minimum number of workers
+	Minimum string `json:"minimum"`
+	// Maximum number of workers
+	Maximum string `json:"maximum"`
+}
+
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +k8s:defaulter-gen=true
+type DaskAutoscaler struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata"`
+	Spec              DaskAutoscalerSpec `json:"spec"`
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+type DaskAutoscalerList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []DaskAutoscaler `json:"items,omitempty"`
+}

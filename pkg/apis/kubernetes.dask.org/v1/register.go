@@ -34,6 +34,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&DaskWorkerGroupList{},
 		&DaskJob{},
 		&DaskJobList{},
+		&DaskAutoscaler{},
+		&DaskAutoscalerList{},
 	)
 	metav1.AddToGroupVersion(scheme, SchemeGroupVersion)
 	return nil
