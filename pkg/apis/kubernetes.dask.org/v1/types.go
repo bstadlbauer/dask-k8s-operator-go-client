@@ -74,13 +74,9 @@ type JobSpec struct {
 	Spec v1.PodSpec `json:"spec"`
 }
 
-type JobClusterSpec struct {
-	Spec DaskClusterSpec `json:"spec"`
-}
-
 type DaskJobSpec struct {
-	Job     JobSpec        `json:"job"`
-	Cluster JobClusterSpec `json:"cluster"`
+	Job     JobSpec     `json:"job"`
+	Cluster DaskCluster `json:"cluster"`
 }
 
 type JobStatus string
