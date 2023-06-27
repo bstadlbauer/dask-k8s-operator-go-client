@@ -1,4 +1,4 @@
-> Note: This is a work in progress - please do not use it/depend on it as of now. If you would need to, please open an Issue
+> Note: This operator has been moved over to [dask/dask-kubernetes](https://github.com/dask/dask-kubernetes). Please use this one instead! 
 
 # dask-k8s-operator-go-client
 A go client for the dask kubernetes operator
